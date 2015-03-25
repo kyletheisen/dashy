@@ -1,0 +1,23 @@
+#dashy-box {
+	position: fixed;
+	left: 30%;
+	top: 52px;
+	width: 40%;
+	height: 50px;
+	z-index: 9991;
+	visibility: hidden;
+}
+#dashy-box.showing {
+	visibility: visible;
+}
+
+#dashy-box select,
+#dashy-box .select2-container {
+	width: 100%;
+}
+
+span.dashylabel {
+	font-size: 11px;
+	text-transform: uppercase;
+	color: #999;
+}
