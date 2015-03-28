@@ -29,7 +29,7 @@ function dashy_admin_style() {
 	wp_enqueue_script( 'hotkeys', plugin_dir_url( __FILE__ ) . 'jquery.hotkeys.js', array( 'jquery' ) );
 
 	// localize dashy data
-	wp_localize_script( 'dashy_js', 'dashy_menu', _dashy_menu_output() );
+	wp_localize_script( 'dashy_js', 'dashy_menu', dashy_menu_output() );
 
 }
 
@@ -40,107 +40,6 @@ function dashy_add_html(){
 	echo '<div id="dashy-box"><input type="hidden" id="dashy-sel" data-s2data="default"></div>';
 }
 add_action( 'in_admin_header', 'dashy_add_html' );
-
-/**
- * Setup choices for select2 data, pulled from WP menu
- *
- * @return array
- */
-function dashy_setup_admin_menu_data() {
-
-	// get admin menus
-	$dashy_menu = dashy_get_admin_menus();
-
-	// holds select2 menu data
-	$dashy_data = array();
-	$uid      = 0;
-
-	// get cpt details
-	$cpt_details = get_option( 'dashy_cpt_details' );
-
-	// loop through menu
-	foreach ( $dashy_menu as $key => $item ) {
-
-		// skip separators
-		if ( substr( $item[2], 0, 9 ) == 'separator' ) {
-			continue;
-		}
-
-		// add item to menu
-		$dashy_data[] = array(
-			'id'     => $uid,
-			'type'   => 'url',
-			'name'   => dashy_filter_spans( $item [0] ),
-			'url'    => admin_url() . $item[2],
-			'parent' => '',
-			'cpt'    => ''
-		);
-		$uid ++;
-
-		// check if item name is in cpt details
-		$cpt_key = dashy_multi_search( $cpt_details, 'label_name', dashy_filter_spans( $item[0] ) );
-
-		// check if we have a match
-		// if so, list add "list _____(cpt)" item
-		if ( $cpt_key !== FALSE ) {
-
-			// get cpt name
-			$cpt_name = $cpt_details[ $cpt_key ]['name'];
-
-			// setup data
-			$dashy_data[] = array(
-				'id'     => $uid,
-				'type'   => 'select',
-				'var'    => $cpt_name, // this is the cpt
-				'name'   => 'List ' . $cpt_details[ $cpt_key ]['label_name'],
-				'parent' => $item[0],
-				'cpt'    => ''
-			);
-			$uid ++;
-
-			// get option for this cpt
-			$cpt_posts = get_option( 'dashy_data_' . $cpt_name );
-
-			// do we have data?
-			if ( $cpt_posts && is_array( $cpt_posts ) ) {
-
-				// sort
-				asort( $cpt_posts );
-
-				// add data
-				$list_cpts[ 'dashy_' . $cpt_name ] = array_values( $cpt_posts );
-			}
-		}
-
-		// menu has submenu
-		if ( isset( $item['submenu'] ) ) {
-			foreach ( $item['submenu'] as $sub_item ) {
-				if ( $sub_item[0] === 'Add New' ) {
-					$item_name = $sub_item[0] . ' ' . rtrim( dashy_filter_spans( $item[0] ), 's' );
-					// TODO - get proper CPT singular label, instead of the above!
-				} else {
-					$item_name = $sub_item[0];
-				}
-				$dashy_data[] = array(
-					'id'     => $uid,
-					'type'   => 'url',
-					'name'   => dashy_filter_spans( $item_name ),
-					'url'    => admin_url() . $sub_item[2],
-					'parent' => dashy_filter_spans( $item[0] ),
-					'cpt'    => ''
-				);
-				$uid ++;
-			}
-		}
-
-	}
-
-	// append dashy_data
-	$list_cpts['main_menu'] = $dashy_data;
-
-	//return array( 'main_menu' => $dashy_data );
-	return $list_cpts;
-}
 
 /*
  * Get admin menus and submenus
@@ -548,7 +447,7 @@ if ( ! function_exists( 'dashy_debug' ) ) {
  *
  * @return mixed
  */
-function _dashy_menu_output() {
+function dashy_menu_output() {
 	global $menu, $submenu;
 	$submenu_as_parent = TRUE;
 
