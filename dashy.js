@@ -5,7 +5,7 @@ jQuery(document).ready(function($){
 	    $dashyBox = $("#dashy-box");
 
 	// set key binding to open dashy
-	$(document).bind('keydown', 'ctrl+shift+d', showAwp);
+	$(document).bind('keydown', 'ctrl+space', showAwp);
 
 
 	// shows dashy

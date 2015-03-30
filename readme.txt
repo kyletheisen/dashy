@@ -11,7 +11,7 @@ Dashy gives you a search field to get to admin pages quicker.
 
 == Description ==
 
-Dashy gives you a search field to get to admin pages quicker. More keyboard shortcuts right inside of WordPress. Get to pages, post, plugins, custom post types, faster. You can even search and get a to single post with the keyboard. To activate, use Control+Shift+D.
+Dashy gives you a search field to get to admin pages quicker. More keyboard shortcuts right inside of WordPress. Get to pages, post, plugins, custom post types, faster. You can even search and get a to single post with the keyboard. To activate, use Control+Space.
 
 To get to a specific page, type "list" and choose "List Pages". From there you will be showing all of your pages that you can edit. Start searching the page name, and hit enter to go directly to editing that page. This supports posts, pages, and custom post types.
 
