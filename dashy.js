@@ -9,7 +9,8 @@ jQuery(document).ready(function($){
 
 
 	// shows dashy
-	function showAwp(){
+	function showAwp(e){
+		e.preventDefault();
 		$dashyBox.addClass('showing');
 		$dashySel.select2( 'open' );
 	}
